@@ -5,6 +5,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const REGEX_BABEL_LOADER = /\.(js|jsx)$/;
 const REGEX_STYLE_LOADER = /\.(css|.s[ac]ss)$/;
 const REGEX_FILE_LOADER = /\.(png|jpg|jpeg|gif|svg|ico|ttf|woff|woff2)$/;
+const DIST= path.resolve(__dirname, './dist');
+const SERVER= path.resolve(__dirname, '../server/assets');
 // const devMode= process.env;
 // console.log(devMode)
 // const devMode= env.development;
@@ -81,10 +83,10 @@ module.exports =function(env) {
     extensions: ['*', '.js', '.jsx'],
   },
   output: {
-    path: path.resolve(__dirname, './dist'),
+    path: devMode?DIST:SERVER,
     filename: 'bundle.js',
-    chunkFilename: devMode?'js/[id].[contenthash].js':'js/[name].js',
-    filename: devMode?'js/[id].[contenthash].js':'js/[name].js',
+    chunkFilename: !devMode?'js/[id].[contenthash].js':'js/[name].js',
+    filename: !devMode?'js/[id].[contenthash].js':'js/[name].js',
   },
   plugins: [new webpack.HotModuleReplacementPlugin(), new HtmlWebpackPlugin({  // Also generate a test.html
     filename: 'index.html',
@@ -96,7 +98,7 @@ module.exports =function(env) {
     chunkFilename: "css/[id].css",
   })]), 
   devServer: {
-    contentBase: path.resolve(__dirname, './dist'),
+    contentBase: DIST,
     hot: true,
   },
 }
