@@ -87,6 +87,7 @@ module.exports =function(env) {
     filename: 'bundle.js',
     chunkFilename: !devMode?'js/[id].[contenthash].js':'js/[name].js',
     filename: !devMode?'js/[id].[contenthash].js':'js/[name].js',
+    clean: devMode?false:true,
   },
   plugins: [new webpack.HotModuleReplacementPlugin(), new HtmlWebpackPlugin({  // Also generate a test.html
     filename: 'index.html',
@@ -94,8 +95,8 @@ module.exports =function(env) {
   })].concat(devMode ? [] : [new MiniCssExtractPlugin({
     // Options similar to the same options in webpackOptions.output
     // both options are optional
-    filename: "css/[name].css",
-    chunkFilename: "css/[id].css",
+    filename: "css/[name].[contenthash].css",
+    chunkFilename: "css/[id].[contenthash].css",
   })]), 
   devServer: {
     contentBase: DIST,
